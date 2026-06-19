@@ -31,7 +31,9 @@ function SignUp() {
     role
   },
   { withCredentials: true }
+
 )
+  console.log(result.data)
       } catch (error) {
         console.log(error)
 
