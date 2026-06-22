@@ -84,7 +84,7 @@ function SignIn() {
       </button>
 
       <p className='text-center mt-6 cursor-pointer' onClick={()=>navigate("/signUp")}>Want To Create A New Account ? <span className='text-[#ff4d2d]'>
-        Sign In</span> </p>
+        Sign Up</span> </p>
       </div>
 
       
