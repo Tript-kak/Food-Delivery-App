@@ -4,7 +4,11 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
-import { serverUrl } from '../App';
+import {serverUrl} from "../App"
+
+import { auth } from "../../firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 
 function SignUp() {
     const primaryColor = "#ff4d2d"
@@ -41,11 +45,36 @@ function SignUp() {
         
       }
     }
+    const handleGoogleAuth = async()=>{
+      if(!mobile){
+        alert("Please enter your mobile number")
+        return
+      }
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      console.log(result)
+
+      try{
+        const {data} = await axios.post(`${serverUrl}/api/auth/google-auth`,{
+          fullName:result.user.displayName,
+          email:result.user.email,
+          mobile,
+          role
+        },{withCredentials:true
+      })
+    }
+
+      catch(error){
+        console.log(error)
+        console.log("Google authentication failed.")
+        alert("Google authentication failed. Please try again.")
+      }
+    }
 
   return (
     <div className='min-h-screen w-full flex items-center justify-center p-4 ' style={
       {backgroundColor:bgColor}}>
-      <div className={`bg-white rounded-xl shadow-lg w-full max-w-md p-8 border-[1px]`} style={{border:`1px solid ${borderColor}`}}>
+      <div className={`bg-white rounded-xl shadow-lg w-full max-w-md p-8 border-1px`} style={{border:`1px solid ${borderColor}`}}>
 
         <h1 className={`text-3xl font-bold mb-2 `} style={{color:primaryColor}}>ZLINKIT</h1>
 
@@ -115,7 +144,7 @@ function SignUp() {
       </button>
 
       <button className='w-full mt-4 flex hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg cursor-pointer items-center  justify-center gap-2 border rounded-lg 
-            px-4 py-2 transition duration-200 border-gray-400 hover:bg-gray-200 '>
+            px-4 py-2 transition duration-200 border-gray-400 hover:bg-gray-200 ' onClick={handleGoogleAuth}>
              <FcGoogle  size={20}/>  
              <span>Sign Up With Google</span>
       </button>
