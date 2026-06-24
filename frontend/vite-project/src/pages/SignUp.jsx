@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 import {serverUrl} from "../App"
+import {ClipLoader} from "react-spinners"
 
 import { auth } from "../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -22,8 +23,11 @@ function SignUp() {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const [mobile,setMobile]=useState("")
+    const [error,setError]=useState("")
+    const [loading,setLoading]=useState(false)
 
     const handleSignUp = async()=>{
+      setLoading(true)
       try {
         const result = await axios.post(
   `${serverUrl}/api/auth/signup`,
@@ -38,21 +42,22 @@ function SignUp() {
 
 )
   console.log(result.data)
-      } catch (error) {
-        console.log(error)
-
-         console.log(error.response.data)
-        
+   setError("")
+      setLoading(false)
+      } 
+      
+      catch (error) {
+        setLoading(false)
+        setError(error?.response?.data?.message)  
       }
     }
     const handleGoogleAuth = async()=>{
       if(!mobile){
-        alert("Please enter your mobile number")
-        return
+        return setError("Please enter your mobile number")
       }
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      console.log(result)
+      
 
       try{
         const {data} = await axios.post(`${serverUrl}/api/auth/google-auth`,{
@@ -62,6 +67,7 @@ function SignUp() {
           role
         },{withCredentials:true
       })
+      console.log(data)
     }
 
       catch(error){
@@ -86,7 +92,7 @@ function SignUp() {
           <div className='mb-4'>
             <label htmlFor="fullName" className='block text-gray-700 font-medium mb-1'>Full Name</label>
             <input type='text' className='w-full border rounded-lg px-3 py-2 focus:outline-none
-           ' placeholder='Enter your Full Name' style={{border:`1px solid ${borderColor}`}} onChange={(e)=>setFullName(e.target.value)} value={fullName}/>
+           ' placeholder='Enter your Full Name' style={{border:`1px solid ${borderColor}`}} onChange={(e)=>setFullName(e.target.value)} value={fullName} required/>
           </div>
 
           {/*email*/}
@@ -94,7 +100,7 @@ function SignUp() {
           <div className='mb-4'>
             <label htmlFor="email" className='block text-gray-700 font-medium mb-1'>Email</label>
             <input type='text' className='w-full border rounded-lg px-3 py-2 focus:outline-none
-           ' placeholder='Enter your Email' style={{border:`1px solid ${borderColor}`}}onChange={(e)=>setEmail(e.target.value)} value={email}/>
+           ' placeholder='Enter your Email' style={{border:`1px solid ${borderColor}`}}onChange={(e)=>setEmail(e.target.value)} value={email} required/>
           </div>
 
            {/*mobile*/}
@@ -102,7 +108,7 @@ function SignUp() {
           <div className='mb-4'>
             <label htmlFor="mobile" className='block text-gray-700 font-medium mb-1'>Mobile</label>
             <input type='text' className='w-full border rounded-lg px-3 py-2 focus:outline-none
-           ' placeholder='Enter your Mobile No.' style={{border:`1px solid ${borderColor}`}}onChange={(e)=>setMobile(e.target.value)} value={mobile}/>
+           ' placeholder='Enter your Mobile No.' style={{border:`1px solid ${borderColor}`}}onChange={(e)=>setMobile(e.target.value)} value={mobile} required/>
           </div>
 
            {/*password*/}
@@ -111,7 +117,7 @@ function SignUp() {
             <label htmlFor="password" className='block text-gray-700 font-medium mb-1'>Password</label>
             <div className='relative'>
             <input type= {`${showPassword? "text":"password"}`} className='w-full border rounded-lg px-3 py-2 focus:outline-none
-           ' placeholder='Enter your Password' style={{border:`1px solid ${borderColor}`}}onChange={(e)=>setPassword(e.target.value)} value={password}/>
+           ' placeholder='Enter your Password' style={{border:`1px solid ${borderColor}`}}onChange={(e)=>setPassword(e.target.value)} value={password} required/>
          
               <button className='absolute right-3 top-3 text-gray-500
               hover cursor-pointer' onClick={()=>setShowPassword(prev=>!prev)}>{ !showPassword?<FaRegEye />:<FaRegEyeSlash />}</button>
@@ -139,9 +145,12 @@ function SignUp() {
            </div>
 
       <button className='w-full hover:scale-[1.02] active:scale-[0.98] shadow-md hover:bg-[#e64523] text-white hover:shadow-lg cursor-pointer font-semibold mt-4 flex items-center justify-center gap-2 border rounded-lg px-4 py-2 transition duration-200 ' 
-              onClick={handleSignUp} style={{backgroundColor:primaryColor,color:"white"}}>
-        Sign Up
+              onClick={handleSignUp} style={{backgroundColor:primaryColor,color:"white"}} disabled={loading}>
+        {loading? <ClipLoader
+        color="white" size={20} />:"Sign Up"}
+
       </button>
+     { error && <p className='text-red-500 text-center my-[10px]' >{error}</p>}
 
       <button className='w-full mt-4 flex hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg cursor-pointer items-center  justify-center gap-2 border rounded-lg 
             px-4 py-2 transition duration-200 border-gray-400 hover:bg-gray-200 ' onClick={handleGoogleAuth}>
@@ -149,7 +158,7 @@ function SignUp() {
              <span>Sign Up With Google</span>
       </button>
 
-      <p className='text-center mt-6 cursor-pointer' onClick={()=>navigate("/signIn")}>Already have an account ? <span className='text-[#ff4d2d]'>
+     <p className='text-center mt-6 cursor-pointer' onClick={()=>navigate("/signIn")}>Already have an account ? <span className='text-[#ff4d2d]'>
         Sign In</span> </p>
       </div>
 

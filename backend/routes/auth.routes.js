@@ -1,6 +1,5 @@
 import express from "express"
 import { signIn, signOut, signUp,sendOtp,verifyOtp,resetPassword } from "../controllers/auth.controllers.js"
-import { auth } from "../../frontend/vite-project/firebase.js"
 import {googleAuth} from "../controllers/auth.controllers.js"
 const authRouter=express.Router()
 
