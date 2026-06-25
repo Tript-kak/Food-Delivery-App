@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../App";
+import { serverUrl } from "../config.js";
 import { ClipLoader } from "react-spinners";
 
 
