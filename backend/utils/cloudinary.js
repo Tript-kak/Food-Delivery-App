@@ -18,7 +18,7 @@ const uploadOnCloudinary=async (file) => {
 
     catch(error){
         fs.unlinkSync(file)
-        console.lof(error)
+        console.log(error)
     }
 }
 

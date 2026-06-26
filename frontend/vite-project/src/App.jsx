@@ -8,10 +8,12 @@ import useGetCity from './hooks/useGetCity'
 import { useSelector } from 'react-redux'
 import Home from './pages/Home'
 import { Navigate } from 'react-router-dom'
+import useGetMyshop from './hooks/useGetMyShop'
 
 function App() {
   useGetCurrentUser()
   useGetCity()
+  useGetMyshop()
   
   const {userData , loading}= useSelector((state)=>state.user)
   console.log("userData in App:", userData)
