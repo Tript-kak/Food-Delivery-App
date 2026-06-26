@@ -25,6 +25,8 @@ function SignIn() {
     const [loading,setLoading]=useState(false)
     const dispatch = useDispatch();
 
+    
+
     const handleSignIn = async()=>{
       setLoading(true)
       try {
@@ -38,8 +40,10 @@ function SignIn() {
 
 )
   dispatch(setUserData(result.data))
+  navigate('/')
   setError("")
   setLoading(false)
+  
       } catch (error) {
         setLoading(false)
         setError(error?.response?.data?.message)   
@@ -59,6 +63,7 @@ function SignIn() {
         },{withCredentials:true
       })
       dispatch(setUserData(data))
+      navigate('/')
     }
 
       catch(error){

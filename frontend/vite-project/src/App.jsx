@@ -4,19 +4,21 @@ import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
 import ForgotPassword from './pages/forgotPassword'
 import useGetCurrentUser from './hooks/useGetCurrentUser'
+import useGetCity from './hooks/useGetCity'
 import { useSelector } from 'react-redux'
 import Home from './pages/Home'
 import { Navigate } from 'react-router-dom'
 
 function App() {
   useGetCurrentUser()
+  useGetCity()
   
   const {userData , loading}= useSelector((state)=>state.user)
   console.log("userData in App:", userData)
   if(loading){
     return <h1>Loading...</h1>
   }
-  
+  console.log("userData:", userData, "loading:", loading)
   return (
    <Routes>
     <Route path='/signup' element={!userData ? <SignUp/> : <Navigate to='/' />} />

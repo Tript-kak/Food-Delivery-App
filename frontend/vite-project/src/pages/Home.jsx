@@ -13,9 +13,9 @@ function Home() {
   return (
     <div className='w-[100vw] min-h-[100vh] flex flex-col items-center bg-[#fff9f6]'>
 
-      {userData?.user?.role === "user" && <UserDashboard />}
-      {userData?.user?.role === "owner" && <OwnerDashboard />}
-      {userData?.user?.role === "deliveryBoy" && <DeliveryBoy />}
+      {userData?.role === "user" && <UserDashboard />}
+      {userData?.role === "owner" && <OwnerDashboard />}
+      {userData?.role === "deliveryBoy" && <DeliveryBoy />}
 
     </div>
   )

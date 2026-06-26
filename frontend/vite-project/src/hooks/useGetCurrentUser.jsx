@@ -24,7 +24,7 @@ function useGetCurrentUser() {
 
         catch(error){
             console.log(error)
-            dispatch(setLoading(false))
+            dispatch(setUserData(null))
             
         }
     };
