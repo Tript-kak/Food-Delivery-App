@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import Home from './pages/Home'
 import { Navigate } from 'react-router-dom'
 import useGetMyshop from './hooks/useGetMyShop'
+import CreateEditShop from './pages/createEditShop'
 
 function App() {
   useGetCurrentUser()
@@ -21,12 +22,18 @@ function App() {
     return <h1>Loading...</h1>
   }
   console.log("userData:", userData, "loading:", loading)
+
+ 
+
+
   return (
    <Routes>
     <Route path='/signup' element={!userData ? <SignUp/> : <Navigate to='/' />} />
     <Route path='/signin' element={userData ? <Navigate to='/' /> : <SignIn />} />
     <Route path='/forgotpassword' element={userData ? <Navigate to='/' /> : <ForgotPassword />} />
-     <Route path='/' element={userData? <Home /> : <Navigate to='/signin' />}/>
+    <Route path='/' element={userData? <Home /> : <Navigate to='/signin' />}/>
+    <Route path='/create-edit-shop' element={userData? <CreateEditShop/>: <Navigate to='/signin' />}/>
+
    </Routes>
   )
 }

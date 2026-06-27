@@ -7,11 +7,17 @@ const uploadOnCloudinary=async (file) => {
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  
         api_key: process.env.CLOUDINARY_API_KEY, 
         api_secret: process.env.CLOUDINARY_SECRET
+
+        
     });
 
+    
+
     try{
-        const result = await cloudinary.uploader.upload(file)
+       console.log("Cloudinary config:", cloudinary.config())
+const result = await cloudinary.uploader.upload(file)
         fs.unlinkSync(file)
+        
 
         return result.secure_url
     }
@@ -21,5 +27,8 @@ const uploadOnCloudinary=async (file) => {
         console.log(error)
     }
 }
+
+
+
 
 export default uploadOnCloudinary

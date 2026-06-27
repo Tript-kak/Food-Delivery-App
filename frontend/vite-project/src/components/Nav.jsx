@@ -12,7 +12,7 @@ import { LuReceiptIndianRupee } from "react-icons/lu";
 
 
 function Nav() {
-  const { userData, city } = useSelector((state) => state.user);
+  const { userData, currentCity } = useSelector((state) => state.user);
   const { myShopData } = useSelector((state) => state.owner);
   const [popup, setPopup] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -45,7 +45,7 @@ function Nav() {
           border-r-[2px] border-gray-400 shrink-0"
           >
             <FaLocationDot size={20} className="text-[#ff4d2d] shrink-0" />
-            <div className="truncate text-sm text-gray-600">{city}</div>
+            <div className="truncate text-sm text-gray-600">{currentCity}</div>
           </div>
           <IoSearch size={20} className="text-[#ff4d2d] shrink-0" />
           <input
@@ -72,7 +72,7 @@ function Nav() {
           border-r-[2px] border-gray-400 shrink-0"
           >
             <FaLocationDot size={20} className="text-[#ff4d2d] shrink-0" />
-            <div className="truncate text-sm text-gray-600">{city}</div>
+            <div className="truncate text-sm text-gray-600">{currentCity}</div>
           </div>
           <IoSearch size={20} className="text-[#ff4d2d] shrink-0" />
           <input
