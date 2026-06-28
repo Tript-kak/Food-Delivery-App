@@ -1,7 +1,12 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs"
+import path from 'path'
 
-const uploadOnCloudinary=async (file) => {
+
+
+    const uploadOnCloudinary = async (file) => {
+    try {
+       
 
         cloudinary.config({ 
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  
@@ -10,23 +15,18 @@ const uploadOnCloudinary=async (file) => {
 
         
     });
-
-    
-
-    try{
-       console.log("Cloudinary config:", cloudinary.config())
-const result = await cloudinary.uploader.upload(file)
+        const normalizedPath = path.resolve(file)
+        console.log("uploading:", normalizedPath)
+        const result = await cloudinary.uploader.upload(normalizedPath)
+        console.log("upload success:", result.secure_url)
         fs.unlinkSync(file)
-        
-
         return result.secure_url
-    }
-
-    catch(error){
-        fs.unlinkSync(file)
-        console.log(error)
+    } catch(error) {
+        console.log("Cloudinary upload error:", JSON.stringify(error, null, 2))
+        try { fs.unlinkSync(file) } catch(e) {}  // safe delete
     }
 }
+
 
 
 

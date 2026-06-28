@@ -10,18 +10,16 @@ import Home from './pages/Home'
 import { Navigate } from 'react-router-dom'
 import useGetMyshop from './hooks/useGetMyShop'
 import CreateEditShop from './pages/createEditShop'
+import AddItem from './pages/addItem'
 
 function App() {
   useGetCurrentUser()
   useGetCity()
   useGetMyshop()
   
-  const {userData , loading}= useSelector((state)=>state.user)
+  const {userData}= useSelector((state)=>state.user)
   console.log("userData in App:", userData)
-  if(loading){
-    return <h1>Loading...</h1>
-  }
-  console.log("userData:", userData, "loading:", loading)
+  
 
  
 
@@ -33,6 +31,7 @@ function App() {
     <Route path='/forgotpassword' element={userData ? <Navigate to='/' /> : <ForgotPassword />} />
     <Route path='/' element={userData? <Home /> : <Navigate to='/signin' />}/>
     <Route path='/create-edit-shop' element={userData? <CreateEditShop/>: <Navigate to='/signin' />}/>
+    <Route path='/add-item' element={userData? <AddItem/> : <Navigate to='/signin' />}/>
 
    </Routes>
   )

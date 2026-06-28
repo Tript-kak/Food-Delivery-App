@@ -1,6 +1,6 @@
 import Shop from "../models/shop.model.js";
 import uploadOnCLoudinary from "../utils/cloudinary.js"
-
+import User from "../models/user.model.js"; 
 export const createEditShop=async(req,res)=>{
      console.log("reached createEditShop")
     console.log("body:", req.body)
@@ -27,10 +27,10 @@ export const createEditShop=async(req,res)=>{
     shop = await Shop.findByIdAndUpdate(
         shop._id,
         { name, city, state, address, ...(image && { image }), owner: req.userId },
-        { returnDocument: 'after' }  // ← fix the deprecation warning
+       
     )
 
-    await shop.populate("owner")
+    await shop.populate("owner","item")
     return res.status(200).json(shop)
 }
 }

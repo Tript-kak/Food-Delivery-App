@@ -14,7 +14,7 @@ const shopSchema= new mongoose.Schema({
 
     owner:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
+        ref:"User",
         required:true
     },
 
@@ -40,5 +40,5 @@ const shopSchema= new mongoose.Schema({
 
 },{timestamps:true})
 
-const Shop=new mongoose.model("Shop",shopSchema)
+const Shop=mongoose.model("Shop",shopSchema)
 export default Shop

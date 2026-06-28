@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { serverUrl } from '../config.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserData , setLoading , setCurrentCity, setCurrentState, setCurrentAddress } from '../redux/userSlice.js'
+import { setUserData , setCurrentCity, setCurrentState, setCurrentAddress } from '../redux/userSlice.js'
 
 
 
