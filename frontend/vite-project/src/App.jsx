@@ -11,6 +11,7 @@ import { Navigate } from 'react-router-dom'
 import useGetMyshop from './hooks/useGetMyShop'
 import CreateEditShop from './pages/createEditShop'
 import AddItem from './pages/addItem'
+import EditItem from './pages/EditItem'
 
 function App() {
   useGetCurrentUser()
@@ -32,6 +33,7 @@ function App() {
     <Route path='/' element={userData? <Home /> : <Navigate to='/signin' />}/>
     <Route path='/create-edit-shop' element={userData? <CreateEditShop/>: <Navigate to='/signin' />}/>
     <Route path='/add-item' element={userData? <AddItem/> : <Navigate to='/signin' />}/>
+    <Route path='/edit-item/:itemId' element={userData? <EditItem/> : <Navigate to='/signin' />}/>
 
    </Routes>
   )
