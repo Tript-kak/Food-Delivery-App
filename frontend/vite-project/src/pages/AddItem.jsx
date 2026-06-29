@@ -6,6 +6,7 @@ import { FaUtensils } from "react-icons/fa";
 import { serverUrl } from "../config";
 import { setmyShopData } from "../redux/ownerSlice";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 
 
@@ -17,9 +18,10 @@ function AddItem() {
   const [price,setPrice] = useState(0)
   const [category,setCategory] = useState("")
   const [foodType,setFoodType] = useState("veg")
-
+  const [loading,setLoading] = useState(false)
   const [frontendImage,setFrontendImage] = useState(null)
   const [backendImage,setBackendImage] = useState(null)
+
   const categories=["fastFood",
         "dessert",
         "beverages",
@@ -48,7 +50,7 @@ function AddItem() {
 
   const handleSubmit = async(e)=>{
         e.preventDefault()
-
+        setLoading(true)
         try{
           const formData = new FormData()
 
@@ -60,19 +62,26 @@ function AddItem() {
           if(backendImage){
             formData.append("image",backendImage)
           }
-
+          console.log("A");
           const result = await axios.post(`${serverUrl}/api/item/add-item`,formData,
             {withCredentials:true})
-
+console.log("B axios done");
           dispatch(setmyShopData(result.data))
-          console.log(result.data)
+          console.log("C dispatch done");
+            setLoading(false)
+         navigate('/')
+         console.log("D navigate done");
 
 
         }
 
         catch(error){
           console.log(error)
-        }
+          setLoading(false)
+          
+        } 
+
+        
   }
   return (
     <div className="flex justify-center items-center p-6 bg-linear-to-br from-orange-50 relative to-white min-h-screen">
@@ -137,23 +146,23 @@ function AddItem() {
 
             <div>
                 <label className='block text-sm font-medium text-gray-700 mb-1'>Food Type</label>
-                <select  className='w-full px-4 py-2
-                border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500' 
-                onChange={(e)=>setFoodType(e.target.value)} value={foodType} >
-
-                     
-
-                      
-                       return (<option value="veg" >veg</option>)
-                       return (<option value="non veg" >non veg</option>)
-                 
-                </select>
+              <select
+  className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500'
+  onChange={(e)=>setFoodType(e.target.value)}
+  value={foodType}
+>
+  <option value="veg">veg</option>
+  <option value="non veg">non veg</option>
+</select>
             </div>
 
 
             <button className='w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg
-            font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200 cursor-pointer '>
-                Save
+            font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200 cursor-pointer '
+            disabled = {loading}    
+            >
+              {loading? <ClipLoader size={20} color='white' />: "Save"}
+                
             </button>
         </form>
       </div>

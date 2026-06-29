@@ -30,7 +30,11 @@ export const addItem = async (req, res) => {
 
     await shop.save()
 
-    await shop.populate("items owner")
+    await shop.populate("owner")
+    await shop.populate({
+      path:"items",
+      options:{sort:{updatedAt:-1}}
+    })
 
     
     return res.status(201).json(shop);
@@ -47,7 +51,7 @@ export const editItem = async (req, res) => {
     let image;
 
     if (req.file) {
-      image = uploadOnCloudinary(req.file.path);
+      image = await uploadOnCloudinary(req.file.path);
     }
 
     const item = await Item.findByIdAndUpdate(
@@ -65,7 +69,10 @@ export const editItem = async (req, res) => {
     if(!item){
         return res.status.json({message:"item not found"})
     }
-    const shop = await Shop.findOne({owner:req.userId}).populate("items")
+    const shop = await Shop.findOne({owner:req.userId}).populate({
+      path:"items",
+      options:{sort:{updatedAt:-1}}
+    })
     
     return res.status(201).json(shop);
 
@@ -88,3 +95,29 @@ export const getItemById = async(req,res) =>{
     return res.status(500).json({ message: `get item error ${error}` });
   }
 }
+
+
+export const deleteItem = async (req, res) => {
+    try {
+      const itemId = req.params.itemId;
+      const item = await Item.findByIdAndDelete(itemId );
+
+      if (!item) {
+        return res.status(400).json({ message: "item not found" });
+      }
+
+      const shop = await Shop.findOne({ owner: req.userId });
+
+      shop.items = shop.items.filter(i => i !== item._id);
+
+      await shop.save();
+
+      await shop.populate({
+        path: "items",
+        options: { sort: { updatedAt: -1 } },
+      });
+      return res.status(200).json(shop);
+    } catch (error) {
+      return res.status(500).json({ message: `Delete item error ${error}` });
+    }
+  };

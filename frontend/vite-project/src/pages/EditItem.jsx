@@ -6,6 +6,7 @@ import { FaUtensils } from "react-icons/fa";
 import { serverUrl } from "../config";
 import { setmyShopData } from "../redux/ownerSlice";
 import axios from "axios";
+import { ClipLoader } from "react-spinners";
 
 
 
@@ -18,6 +19,7 @@ function EditItem() {
   const [price,setPrice] = useState(0)
   const [category,setCategory] = useState("")
   const [foodType,setFoodType] = useState("veg")
+  const [loading,setLoading] = useState(false)
   
   const [frontendImage,setFrontendImage] = useState(null)
   const [backendImage,setBackendImage] = useState(null)
@@ -49,6 +51,7 @@ function EditItem() {
 
   const handleSubmit = async(e)=>{
         e.preventDefault()
+        setLoading(true)
 
         try{
           const formData = new FormData()
@@ -66,8 +69,8 @@ function EditItem() {
             {withCredentials:true})
 
           dispatch(setmyShopData(result.data))
-          console.log(result.data)
-
+          setLoading(false)
+          navigate('/')
 
         }
 
@@ -170,8 +173,10 @@ function EditItem() {
 
 
             <button className='w-full bg-[#ff4d2d] text-white px-6 py-3 rounded-lg
-            font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200 cursor-pointer '>
-                Save
+            font-semibold shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-200 cursor-pointer 
+            ' disabled={loading}>
+                {loading? <ClipLoader size={20} color='white' /> : "Save"}
+                
             </button>
         </form>
       </div>
