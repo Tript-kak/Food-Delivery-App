@@ -23,23 +23,17 @@ function AddItem() {
   const [backendImage,setBackendImage] = useState(null)
 
   const categories=["fastFood",
-        "dessert",
-        "beverages",
-        "snacks",
-        "bakery",
-        "streetFood",
-        "southIndian",
-        "northIndian",
-        "chinese",
-        "italian",
-        "continental",
-        "seafood",
-        "salads",
-        "breakfast",
-        "lunch",
-        "dinner",
-        "comboMeals",
-        "others"]
+        "Snacks",
+        "Main Course",
+        "Desserts",
+        "Pizza",
+        "Burger",
+        "Sandwiches",
+        "South Indian",
+        "North Indian",
+        "Chinese",
+        "Fast Food",
+        "Others"]
   const dispatch = useDispatch()
 
   const handleImage = (e)=>{
