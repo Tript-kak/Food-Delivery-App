@@ -1,3 +1,4 @@
+import Shop from "../models/shop.model.js";
 import User from "../models/user.model.js"
 
 export const getCurrentUser = async (req, res) => {
@@ -15,5 +16,22 @@ export const getCurrentUser = async (req, res) => {
     catch (error) {
          console.log("getCurrentUser error:", error);
        return res.status(500).json({ message: "Fetehcing Current User error" });
+    }
+}
+export const getShopByCity =async(req,res) =>{
+    try {
+        const {city} = req.params
+
+        const shops = await Shop.find({
+            city:{$regex:new RegExp(`${city}$`,"i")}
+        }).populate('items')
+        if(!shops){
+            return res.status(400).json({message: "shops not found"})
+        }
+
+        return res.status(200).json(shops)
+    } catch (error) {
+    return res.status(500).json({ message: "Get Shop BY city error" });
+
     }
 }
