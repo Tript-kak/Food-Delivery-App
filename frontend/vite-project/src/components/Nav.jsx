@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function Nav() {
-  const { userData, city } = useSelector((state) => state.user);
+  const { userData, city , cartItems } = useSelector((state) => state.user);
   const { myShopData } = useSelector((state) => state.owner);
   const [popup, setPopup] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -58,12 +58,11 @@ function Nav() {
         </div>
       )}
 
-      {/* Logo */}
+ 
       <h1 className="text-2xl md:text-3xl font-bold text-[#ff4d2d] shrink-0">
         Zlinkit
       </h1>
 
-      {/* Search bar — hidden on mobile */}
       {userData.role == "user" && (
         <div
           className="hidden md:flex w-[60%] lg:w-[40%] h-[50px] bg-white shadow-xl
@@ -84,7 +83,7 @@ function Nav() {
           />
         </div>
       )}
-      {/* Right side actions */}
+     
       <div className="flex items-center gap-4">
         {/* Search icon — mobile only */}
         {userData.role == "user" &&
@@ -139,13 +138,15 @@ function Nav() {
         ) : (
           <>
             {
-              <div className="relative cursor-pointer">
+              <div className="relative cursor-pointer" onClick={
+                ()=>navigate("/cartPage")
+              }>
                 <BiCart size={24} className="text-[#ff4d2d]" />
                 <span
                   className="absolute right-[-8px] top-[-10px] text-xs font-semibold
             text-[#ff4d2d] leading-none"
                 >
-                  0
+                  {cartItems.length}
                 </span>
               </div>
             }

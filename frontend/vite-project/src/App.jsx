@@ -13,12 +13,15 @@ import CreateEditShop from './pages/createEditShop'
 import AddItem from './pages/addItem'
 import EditItem from './pages/EditItem'
 import useGetShopByCity from './hooks/useGetShopByCity'
+import useGetItemsByCity from './hooks/useGetItemsByCity'
+import CartPage from './pages/CartPage'
 
 function App() {
   useGetCurrentUser()
   useGetCity()
   useGetMyshop()
   useGetShopByCity()
+  useGetItemsByCity()
   
   const {userData}= useSelector((state)=>state.user)
   console.log("userData in App:", userData)
@@ -36,6 +39,7 @@ function App() {
     <Route path='/create-edit-shop' element={userData? <CreateEditShop/>: <Navigate to='/signin' />}/>
     <Route path='/add-item' element={userData? <AddItem/> : <Navigate to='/signin' />}/>
     <Route path='/edit-item/:itemId' element={userData? <EditItem/> : <Navigate to='/signin' />}/>
+    <Route path='/cartPage' element={userData? <CartPage/> : <Navigate to='/signin' />}/>
 
    </Routes>
   )

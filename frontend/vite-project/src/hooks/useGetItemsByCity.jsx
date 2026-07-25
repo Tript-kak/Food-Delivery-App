@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { serverUrl } from '../config.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { setShopsInMyCity } from '../redux/userSlice.js'
+import { setItemsInMyCity, setShopsInMyCity } from '../redux/userSlice.js'
 
-function useGetShopByCity() {
+function useGetItemsByCity() {
   const dispatch = useDispatch()
   const { city } = useSelector(state => state.user)
 
@@ -14,13 +14,13 @@ function useGetShopByCity() {
     const fetchShop = async () => {
       try {
         const result = await axios.get(
-          `${serverUrl}/api/shop/get-by-city/${city}`,
+          `${serverUrl}/api/item/get-by-city/${city}`,
           { withCredentials: true }
         )
 
         console.log("API returned:", result.data)
 
-        dispatch(setShopsInMyCity(result.data))
+        dispatch(setItemsInMyCity(result.data))
 
       } catch (error) {
         console.log("shop fetch error:", error.response?.data || error.message)
@@ -31,4 +31,4 @@ function useGetShopByCity() {
   }, [city])
 }
 
-export default useGetShopByCity
+export default useGetItemsByCity
