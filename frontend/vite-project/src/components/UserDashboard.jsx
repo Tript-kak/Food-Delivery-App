@@ -12,6 +12,18 @@ function UserDashboard() {
   const shopRef = useRef(null)
   const foodRef = useRef(null)
 
+  useEffect(() => {
+    const fetchShop = async () => {
+        const res = await axios.get(`${serverUrl}/api/shop/my-shop`, {
+            withCredentials: true,
+        });
+
+        dispatch(setMyShopData(res.data.shop));
+    };
+
+    fetchShop();
+}, []);
+
   const { city, shopsInMyCity, itemsInMyCity } = useSelector(
     (state) => state.user
   )

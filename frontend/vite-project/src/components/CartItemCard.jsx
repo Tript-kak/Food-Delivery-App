@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaTrash } from "react-icons/fa6";
-import { updateQuantity } from '../redux/userSlice';
+import { removeFromCart, updateQuantity,removeCartItem } from '../redux/userSlice';
 
 import { FaPlus,FaMinus } from 'react-icons/fa'
 import { useDispatch } from 'react-redux';
@@ -12,7 +12,7 @@ function CartItemCard({data}) {
     }
 
      const handleDecrease =(id,currentQty)=>{
-        dispatch(updateQuantity({id,quantity:currentQty-1}))
+        if(currentQty>1)dispatch(updateQuantity({id,quantity:currentQty-1}))
     }
   return (
     <div className='flex items-center justify-between bg-white p-4 rounded-xl
@@ -38,7 +38,7 @@ function CartItemCard({data}) {
            <FaPlus size = {12}/> 
             </button>   
 
-            <button className='p-2 bg-red-100 rounded-full text-red-600 hover:bg-gray-200 cursor-pointer'>
+            <button className='p-2 bg-red-100 rounded-full text-red-600 hover:bg-gray-200 cursor-pointer' onClick={()=>dispatch(removeCartItem(data.id))}>
                 <FaTrash size={18}/>
             </button>
       </div>

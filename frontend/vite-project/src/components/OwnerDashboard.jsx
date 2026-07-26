@@ -8,6 +8,7 @@ import OwnerItemComponent from "./OwnerItemComponent";
 function OwnerDashboard() {
   const { myShopData } = useSelector((state) => state.owner);
   const navigate = useNavigate();
+  
 
   return (
     <div className="w-full min-h-screen bg-[#f7f2ef] pt-[70px] flex flex-col">
