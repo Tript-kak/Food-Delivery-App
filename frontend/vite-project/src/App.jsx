@@ -15,6 +15,7 @@ import EditItem from './pages/EditItem'
 import useGetShopByCity from './hooks/useGetShopByCity'
 import useGetItemsByCity from './hooks/useGetItemsByCity'
 import CartPage from './pages/CartPage'
+import CheckOut from './pages/CheckOut'
 
 function App() {
   useGetCurrentUser()
@@ -40,6 +41,7 @@ function App() {
     <Route path='/add-item' element={userData? <AddItem/> : <Navigate to='/signin' />}/>
     <Route path='/edit-item/:itemId' element={userData? <EditItem/> : <Navigate to='/signin' />}/>
     <Route path='/cartPage' element={userData? <CartPage/> : <Navigate to='/signin' />}/>
+    <Route path='/CheckOut' element={userData? <CheckOut/> : <Navigate to='/signin' />}/>
 
    </Routes>
   )
